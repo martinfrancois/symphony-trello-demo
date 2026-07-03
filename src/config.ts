@@ -8,7 +8,9 @@ import { readCredentials, type TrelloCredentials } from "./env.ts";
 export function loadCredentials(env: NodeJS.ProcessEnv): TrelloCredentials {
   const { apiKey, apiToken } = readCredentials(env);
   if (!apiKey || !apiToken) {
-    throw new Error("Trello credentials are not set.");
+    throw new Error(
+      "Trello status check failed: missing Trello API token. Run `export TRELLO_API_TOKEN=your-token` and try again.",
+    );
   }
   return { apiKey, apiToken };
 }
