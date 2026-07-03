@@ -8,5 +8,22 @@ test("loadCredentials returns both credentials when present", () => {
 });
 
 test("loadCredentials fails when the token is missing", () => {
-  assert.throws(() => loadCredentials({ TRELLO_API_KEY: "key-123" }), /Trello credentials are not set\./);
+  assert.throws(
+    () => loadCredentials({ TRELLO_API_KEY: "key-123" }),
+    /Trello status check failed: missing Trello API token\. Run `export TRELLO_API_TOKEN=your-token` and try again\./,
+  );
+});
+
+test("loadCredentials fails when the API key is missing", () => {
+  assert.throws(
+    () => loadCredentials({ TRELLO_API_TOKEN: "token-456" }),
+    /Trello status check failed: missing Trello API key\. Run `export TRELLO_API_KEY=your-key` and try again\./,
+  );
+});
+
+test("loadCredentials fails when both credentials are missing", () => {
+  assert.throws(
+    () => loadCredentials({}),
+    /Trello status check failed: missing Trello API key and token\. Run `export TRELLO_API_KEY=your-key` and `export TRELLO_API_TOKEN=your-token` and try again\./,
+  );
 });
